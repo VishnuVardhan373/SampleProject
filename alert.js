@@ -1,1 +1,1 @@
-<script>window.alert("alert")</script>
+<script>window.alert("alert1")</script>
