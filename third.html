@@ -1,0 +1,46 @@
+<html>
+<head>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<body>
+<div>
+
+<p>Click the "component builder" button</p>
+<button onclick="myFunction()">component builder</button>
+</div>
+
+<div id="myDIV">
+<form id="regForm">
+  <h1>component builder</h1>
+  <!-- One "tab" for each step in the form: -->
+  <div class="tab">
+    component title:
+  <input type="text" name="component title" placeholder="write the title of the component">
+  component name:
+  <input type="text" name="component group" placeholder="write the name of the component">
+  component resource super type:
+  <input type="text" name="component resource super type" placeholder="sling:resourceSuperType">
+  component group:
+  <input type="text" name="component group" placeholder="componentGroup">
+  </div>
+  <div class="tab">
+     <textarea name="message" style="width:100%;height:300px"></textarea>
+     <input type="file" id="myFile" name="pic" accept=".html" style="width:300px">
+     <button type="button" onclick()="my()">fileupload</button>
+</div>
+  <div style="overflow:auto;">
+    <div style="float:right;">
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+    </div>
+  </div>
+  <!-- Circles which indicates the steps of the form: -->
+  <div style="text-align:center;margin-top:40px;">
+    <span class="step"></span>
+    <span class="step"></span>
+  </div>
+</form>
+</div>
+</body>
+</html>
