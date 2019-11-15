@@ -1,12 +1,3 @@
-<html>
-<head>
-</head>
-<body>
-<div>
-<p>Click the "component builder" button</p>
-<button onclick="myFunction()">component builder</button>
-</div>
-<script>
 function myFunction() {
   var x = document.getElementById("myDIV");
   if (x.style.display === "none") {
@@ -15,10 +6,8 @@ function myFunction() {
     x.style.display = "none";
   }
 }
-</script>
 
 
-<script>
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
@@ -91,14 +80,11 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
 }
-</script>
 
-<script> 
+
+
         function my() { 
             var x = document.getElementById("myFile"); 
             x.disabled = true; 
         } 
-    </script> 
 
-</body>
-</html>
