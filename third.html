@@ -1,13 +1,10 @@
-<html>
-<head>
-</head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-<body>
-<div>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" />
+<sly data-sly-call="${clientlib.css @ categories='tool1.form'}" />
 
+
+<div>
 <p>Click the "component builder" button</p>
-<button onclick="myFunction()">component builder</button>
+<button>component builder</button>
 </div>
 
 <div id="myDIV">
@@ -42,19 +39,5 @@
   </div>
 </form>
 </div>
-</body>
-</html>
 
-(function() {  
-    window.alert("hello1");
-
-    $("#buttonClick").click(function() {
-        window.alert("hello");
-  /** var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none"; 
-  } **/
-});
- }).call(this);
+<sly data-sly-call="${clientlib.js @ categories='tool1.form'}" />
