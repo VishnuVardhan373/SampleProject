@@ -1,11 +1,11 @@
-function myFunction() {
-  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
+
+
+$(document).ready(function(){
+    $("form").hide();
+  $("#show").click(function(){
+    $("form").show();
+  });
+});
 
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
