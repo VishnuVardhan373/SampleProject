@@ -1,27 +1,28 @@
 $(document).on('submit','#regForm',function(e){
-    window.alert("hello1"),
+    
     e.preventDefault();
-    window.alert("hello1"),
+    
+        var title=$('#title').val();
+        var name : $('#name').val();
+        var resource : $('#resource').val(),;
+        var group : $('#group').val();
+        var myfile : $('#myfile').val();
+        var file : $('#file').val();
+        
     $.ajax({
     type : "POST",
-    window.alert("hello1"),
-    url:'/',
-    //url : '/bin/custom/path',
-    data : {
-        title : $('#title').val(),
-        name : $('#name').val(),
-        resource : $('#resource').val(),
-        group : $('#group').val(),
-        myfile : $('#myfile').val(),
-        file : $('#file').val(),
-    },
-        window.alert(name);
-    success : function(data, textStatus, jqXHR) {
-        window.alert(name);
-        //write your logic that you need to perform on sucess           
+    url : '/bin/custom/path',
+    data: 'title='+title+'&name='+name+'&resource='+resource+'&group='+group+'&myfile='+myfile+'&file='+file,
+    
+    success : function(msg) {
+        
+       var json = jQuery.parseJSON(msg); 
+            var pageTitle=   json.title;
+            var pageName = json.name;
+            var pageResource = json.resource;
+        $('#ClaimNum').val(pageTitle);
+            $('#value').val("Filed by " + pageTitle + " " + pageName);
                 },
-    error : function(XMLHttpRequest, textStatus, errorThrown) {
-        //write your logic that you need to perform on error
-    }
+
 });
 });
