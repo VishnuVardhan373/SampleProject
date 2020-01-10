@@ -1,0 +1,25 @@
+.container {
+
+    margin-top: 100px;
+    margin-bottom: 100px;
+  	margin-right: 150px;
+  	margin-left: 80px;
+    border-color: #1e5fbe;
+    background-color: #326ec8;
+    box-sizing: border-box;
+    min-width: 2.375rem;
+    width: 15rem;
+    height: 2.375rem;
+    margin: 0;
+    padding: .625rem;
+    vertical-align: top;
+    border: .0625rem solid;
+    border-radius: .25rem;
+
+}
+
+.hide {
+
+display:none;
+
+    }
