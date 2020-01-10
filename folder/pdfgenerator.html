@@ -1,0 +1,56 @@
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.all @ categories='tools-core.pdf'}"/>
+
+<sly data-sly-use.pdfGenerator="org.infosys.solutions.aem.tools.core.models.PdfGeneratorModel" />
+
+<sly data-sly-test.isConfigured="${pdfGenerator.pagePath}">
+${pdfGenerator.pagePath}.html
+
+         <div> Click Button to Generate Pdf : </br></br>
+
+			<button class="container" href="#" id="submit" is="coral-button" variant="primary" icon="checkCircle" iconsize="S">
+                  Generate Pdf
+            </button>
+
+         </div>
+</sly>
+
+<div data-sly-test.author="${wcmmode.edit && !isConfigured}" class="cq-placeholder section" data-emptytext="Please configure Page Path to convert it to HTML"></div>
+
+<div id="content" class="hide">
+
+    <h3>Sample h3 tag</h3>
+    <p>Sample pararaph</p>
+	<img src="/content/dam/we-retail/en/features/tracking.png" alt="Smiley face" height="42" width="42">
+    <p>Sample pararaph</p>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+
+
+
+ function fileupload(){
+    var output = document.getElementById("output");
+    output.value=textdata;
+    }
+    var input = document.getElementById("myFile");
+    var reader = new FileReader();
+    var textdata;
+
+    input.addEventListener("change", function () {
+
+      if (this.files && this.files[0]) {
+    
+        var myFile = this.files[0];
+        reader.addEventListener('load', function (e) {
+        textdata = e.target.result;
+
+        });
+    
+        reader.readAsBinaryString(myFile);
+    
+     }
+
+    });
