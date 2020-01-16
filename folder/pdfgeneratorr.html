@@ -105,3 +105,18 @@ $('#submit').click(function () {
 
 
     </script>
+
+
+use(function() {
+	var pagepath = currentPage.getPath();
+    var pagetitle = currentPage.getTitle();
+    //var file = ${properties.path};
+
+	return {
+		path : pagepath,
+        title : pagetitle
+
+	};
+});
+
+
