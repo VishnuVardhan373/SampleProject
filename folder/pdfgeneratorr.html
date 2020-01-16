@@ -1,0 +1,107 @@
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.css @ categories='aem63.pdf'}"/>
+
+<!-- /** <sly data-sly-use.pdfGenerator="org.infosys.solutions.aem.tools.core.models.PdfGeneratorModel" /> **/ -->
+<!-- /** <sly data-sly-test.isConfigured="${pdfGenerator.pagePath}"> **/ -->
+
+
+<head>
+
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+
+</head>
+<div data-sly-use.page="${'pdf.js'}" data-sly-unwrap> 
+<sly data-sly-test.isConfigured="${properties.path}">
+
+
+        <!-- /** <p>Path: ${currentPage.Path}</p> **/ -->
+		<p id="title">${page.title @ context='text'} </p>
+			${properties.path}
+         <div> Click Button to Generate Pdf : </br></br>
+
+			<button class="container" href="#" id="submit" is="coral-button" variant="primary" icon="checkCircle" iconsize="S">
+                  Generate Pdf
+            </button>
+
+         </div>
+</sly>
+
+<div data-sly-test.author="${wcmmode.edit && !isConfigured}" class="cq-placeholder section" data-emptytext="Please configure Page Path to convert it to HTML"></div>
+
+<div id="content" class="hide">
+
+    <h3 href="http://www.google.com">Sample h3 tag</h3>
+    <p>Sample pararaph</p>
+	<img src="/content/dam/geometrixx-unlimited/ads/fullPage/DP_TOC.png" alt="Smiley face" height="42" width="42">
+
+    <p>Sample pararaph</p>
+    <p>Sample pararaph</p>
+    <p>Sample pararaph</p>
+
+
+</div>
+
+
+
+<script>
+
+$('#submit').click(function () {  
+
+
+    	var specialElementHandlers = {
+
+   		 '#submit': function (element, renderer) {
+        	return true;
+
+    		},	
+
+    	'#anotherIdToBeIgnored': function (element, renderer) {
+        	return true;
+
+ 			}
+    	};
+
+
+
+    	var img = new Image();
+        var title = document.getElementById('title').innerHTML;  
+		var src = document.getElementsByTagName("img").src;
+        console.log(src);
+
+		img.src = "/content/dam/geometrixx-unlimited/ads/fullPage/DP_TOC.png";
+        img.src = "/content/dam/geometrixx-unlimited/ads/fullPage/Cloud_Vertical.jpg";
+
+    	var doc = new jsPDF();
+		var requiredPages = 4;
+    	console.log(requiredPages);
+
+    	/** for(var i = 0; i < requiredPages; i++){
+
+            doc.addPage();
+            doc.fromHTML($('#content').html(), 15, 15, {
+        	'width': 170,
+            'elementHandlers': specialElementHandlers
+
+    	}); 
+
+
+			} **/
+    	//doc.addPage();
+
+    	doc.fromHTML($('#content').html(), 15, 15, {
+        	'width': 170,
+            'elementHandlers': specialElementHandlers
+
+    	});
+
+        doc.addImage(img,'png', 15, 40, 180, 160);
+        doc.addImage(img,'jpg', 15, 40, 180, 160);
+
+        //doc.src = 'assets/sample.png'
+        doc.save('title.pdf');
+
+});
+
+
+    </script>
