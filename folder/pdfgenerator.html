@@ -1,12 +1,12 @@
-<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.all @ categories='aem63.pdf'}"/>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.all @ categories='tools-core.pdf'}"/>
 
 <sly data-sly-use.pdfGenerator="org.infosys.solutions.aem.tools.core.models.PdfGeneratorModel">
 
 <head>
 
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <!-- /** <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script> **/ -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <!-- /** <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> **/ -->
 
 
 </head>
@@ -25,36 +25,94 @@
 </sly>
 
 
-
 <body>
 
-<div id="content" class="hide"></div>
+<div id="content" class="hide"> </div>
+<div id="storage" class="hide"> </div>
+<div id="pagepath" class="hide">${pdfGenerator.pagePath}</div>
 
 
 <div id="contents" class="hide">
 
 
-	<p id="pagePath">${page.pagetitle}</p>
+	<p id="pagetitle">${page.pagetitle}</p>
 
     <script type ="text/javascript">
 
    		var htmlContent = document.body.innerHTML;
+
 		
    		readHtml();
 
     	function readHtml(){
 
-            var htmlContents = document.body.innerHTML;
 
-        	document.getElementById('content').innerHTML = htmlContents;
+			var pagetitle = $('#pagetitle').html();
+
+            var pagePath = $('#pagepath').html();
+            pagePath = pagePath+".html";
+
+
+            var pathname = window.location.pathname;
+            var currentPageUrl = window.location.href;
+
+            var pageUrl = currentPageUrl.replace(pathname,pagePath);
+			console.log(pageUrl);
+
+            var storage = document.getElementById('storage');
+
+            loadPageHtml(pageUrl,storage);
+
+            //var newWindow = window.open(pageUrl,"","width=200,height=100");
+
+            //var htmlContents = newWindow.document.body;
+            //console.log(htmlContents.length);
+
+        	//document.getElementById('content').innerHTML = htmlContents;
+            console.log("Test");
 
     	}; 
+
+        function loadPageHtml(pageUrl,storage)
+
+        { 
+
+        var xhttp = new XMLHttpRequest();
+
+       //var newWindow = window.open(pageUrl,"_blank");
+
+        xhttp.onreadystatechange=function()
+		{ 
+			if(this.readyState == 4 && this.status == 200)
+
+                {
+
+					storage.innerHTML = this.responseText;
+                    console.log(storage.innerHTML);
+					//fun(storage, param);
+
+				} 
+		}; 
+
+        xhttp.open("GET",pageUrl, true);
+  		xhttp.send();
+
+
+        //console.log(window.document.body.innerHTML);
+
+        /* var htmlContents = newWindow.document.body.innerHTML;
+        console.log(htmlContents.length);
+
+        newWindow.close(); */
+
+        }; 
 
 	</script> 
 
 
 </div>
 </body>
+
 
 
 
