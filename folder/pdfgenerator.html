@@ -1,13 +1,14 @@
-<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.all @ categories='tools-core.pdf'}"/>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.all @ categories='aem-foundation.pdf'}"/>
 
-<sly data-sly-use.pdfGenerator="org.infosys.solutions.aem.tools.core.models.PdfGeneratorModel">
+<!-- /** <sly data-sly-use.pdfGenerator="org.infosys.solutions.aem.tools.core.models.PdfGeneratorModel"> **/ -->
+
+<sly data-sly-test.isConfigured="${properties.pagePath}">
 
 <head>
 
     <!-- /** <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script> **/ -->
-
     <!-- /** <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> **/ -->
-
+    <!-- /** <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script> **/ -->
 
 </head>
  <div data-sly-use.page="${'pdf.js'}" data-sly-unwrap> 
@@ -24,12 +25,14 @@
  </div>
 </sly>
 
+<div data-sly-test.author="${wcmmode.edit && !isConfigured}" class="cq-placeholder section" data-emptytext="Please configure the Page Path"></div>
+
 
 <body>
 
 <div id="content" class="hide"> </div>
 <div id="storage" class="hide"> </div>
-<div id="pagepath" class="hide">${pdfGenerator.pagePath}</div>
+<div id="pagepath" class="hide">${properties.pagePath}</div>
 
 
 <div id="contents" class="hide">
@@ -41,7 +44,7 @@
 
    		var htmlContent = document.body.innerHTML;
 
-		
+
    		readHtml();
 
     	function readHtml(){
@@ -63,12 +66,7 @@
 
             loadPageHtml(pageUrl,storage);
 
-            //var newWindow = window.open(pageUrl,"","width=200,height=100");
 
-            //var htmlContents = newWindow.document.body;
-            //console.log(htmlContents.length);
-
-        	//document.getElementById('content').innerHTML = htmlContents;
             console.log("Test");
 
     	}; 
@@ -79,8 +77,6 @@
 
         var xhttp = new XMLHttpRequest();
 
-       //var newWindow = window.open(pageUrl,"_blank");
-
         xhttp.onreadystatechange=function()
 		{ 
 			if(this.readyState == 4 && this.status == 200)
@@ -88,30 +84,47 @@
                 {
 
 					storage.innerHTML = this.responseText;
-                    console.log(storage.innerHTML);
-					//fun(storage, param);
+                    var content = storage.innerHTML;
 
-				} 
+                    var scriptTag = storage.getElementsByTagName('script');
+
+					var img = storage.getElementsByTagName('img');
+                    var child = img.children;
+					console.log(child);
+
+                    for(var i = 0; i < img.length; i++){
+
+                     img[i].style.width = "100px";
+
+					}
+
+                    console.log(scriptTag[0].replaceWith(""));
+                    var length = scriptTag.length;
+					console.log(length);
+
+                    while (length--) {
+
+                    scriptTag[length].parentNode.removeChild(scriptTag[length]);
+
+                    }
+
+					document.getElementById('content').innerHTML = storage.innerHTML;
+                } 
 		}; 
 
         xhttp.open("GET",pageUrl, true);
   		xhttp.send();
 
+        };
 
-        //console.log(window.document.body.innerHTML);
-
-        /* var htmlContents = newWindow.document.body.innerHTML;
-        console.log(htmlContents.length);
-
-        newWindow.close(); */
-
-        }; 
 
 	</script> 
 
 
 </div>
 </body>
+
+
 
 
 
@@ -128,10 +141,7 @@ use(function() {
         DESCRIPTION_LENGTH: 50
     };
 
-
-
-
-    var description = properties.get(Constants.DESCRIPTION_PROP, "").substr(0, Constants.DESCRIPTION_LENGTH);
+	var description = properties.get(Constants.DESCRIPTION_PROP, "").substr(0, Constants.DESCRIPTION_LENGTH);
 	var pagepath = currentPage.getPath();
     var pagetitle = currentPage.getTitle();
     
@@ -145,7 +155,6 @@ use(function() {
 
 	};
 });
-
 
 
 
@@ -168,24 +177,39 @@ $(document).ready(function() {
 
  		},
 
-     '#pagePath': function (element, renderer) {
+     '#pagetitle': function (element, renderer) {
         return true;
 
- 		}
+ 		},
+
+     '#pagepath': function (element, renderer) {
+        return true;
+
+ 		},
+
+     '#scripttag': function (element, renderer) {
+        return true;
+
+    	}
+
 
     }; 
 
 		var margin = {
+            
   			top: 20,
-			left: 0,
-  			right: 0,
-  			bottom: 0
+			left: 40,
+  			right: 20,
+            bottom: 20,
+            width: 522
+
+
 	       }; 
 
 
 
         var img = new Image();
-        var doc = new jsPDF();
+        var doc = new jsPDF("p","mm","a4");;
 
 		var width = doc.internal.pageSize.getWidth();
 		var height = doc.internal.pageSize.getHeight();
@@ -206,14 +230,9 @@ $(document).ready(function() {
 		var halfLineHeight	= lineHeight / 2;
 		var textYCoordinate = topCoordinate + halfRectHeight + halfLineHeight;
 
-		
-
-
 
 	 $('#submit').click(function () { 
 
-
-		
 		doc.rect(0, 0, 0, 0); 
     	doc.triangle(0, 0, 0, 0, 0, 0, 'FD');
     	doc.roundedRect(0, 0, 0, 0, 0, 0, 'FD');
@@ -222,19 +241,21 @@ $(document).ready(function() {
 
 
 
-    	doc.fromHTML($('#content').html(), 15, 15, {
+		
 
-            'width': 170,
+    	doc.fromHTML($('#content').html(),10, 10, {
+
+            'width': 180,
+            
 
             'elementHandlers': specialElementHandlers
 
     	},function(a) {
 
 
-                        var dialogPath = $('#pagePath').html();
-            			var fname = window.location.href ;
-            			console.log("fname"+fname);
-                        var filename = dialogPath.substring(dialogPath.lastIndexOf('/')+1);
+                        var pagePath = $('#pagepath').html();
+
+                        var filename = pagePath.substring(pagePath.lastIndexOf('/')+1);
 
                         doc.save(filename+'.pdf');
 
@@ -243,6 +264,7 @@ $(document).ready(function() {
     }); 
 
 });
+
 
 
 
