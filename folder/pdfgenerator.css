@@ -20,6 +20,34 @@
 
 .hide {
 
+	display:none;
+	max-width: 8rem;
+    margin-left: 20px;
+
+	}
+
+#show {
+
+display:block;
+
+    }
+
+.show {
+
 display:none;
+
+    }
+
+.content {
+
+max-width: 10rem;
+
+    }
+
+
+.tag {
+
+width: 15rem;
+        height: 2.375rem;
 
     }
